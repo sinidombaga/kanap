@@ -1,7 +1,7 @@
 //===========================================
 
 //=========================================
-//recuperation de la chaine de requete dans l'URL
+//recuperation de la chaine de requête dans l'URL
 const queryStringUrlId =window.location.search;
 
 //=======================================
@@ -12,11 +12,12 @@ const id = urlSearchParams.get("id")
 let itemPrice = 0
 let imgUrl, altText, articleName
 
-    //recuperation des données de l'id dans la base des données
+    //recuperation des données de l'id dans la base des données par  l'API avec la methode "GET"
       fetch(`http://localhost:3000/api/products/${id}`)
       .then((Response) => Response.json())
       .then((res) => handleData(res))
 
+      //Création d'une fonction pour recuperer des elements contenus dans le ID
       function handleData(kanap) {
           const altTxt = kanap.altTxt
           const imageUrl = kanap.imageUrl
@@ -35,7 +36,8 @@ let imgUrl, altText, articleName
           makePrice(price)
           makeColors(colors)
          }
-        
+
+        //Création d'une fonction pour importer l'image et alt image du produit séléctionné par l'utilisateur
         function makeImage(imageUrl, altTxt) {
             const image = document.createElement('img')
             image.src = imageUrl
@@ -43,18 +45,26 @@ let imgUrl, altText, articleName
             const parent = document.querySelector(".item__img")
             if(parent != null) parent.appendChild(image)
         }
+
+        //Création d'une fonction pour importer le nom du produit séléctionné par l'utilisateur
         function makeTitle(name) {
             const h1 = document.querySelector("#title")
             if(h1 != null) h1. textContent = (name)
         }
+
+        //Création d'une fonction pour importer le prix du produit séléctionné par l'utilisateur 
         function makePrice(price) {
             const span = document.querySelector("#price")
             if(span != null) span. textContent = (price)
         }
+
+        //Création d'une fonction pour importer la description du produit séléctionné par l'utilisateur 
         function makeDescription(description) {
             const p = document.querySelector("#description")
             if(description != null) p. textContent = (description)
         }
+
+        //Création d'une fonction pour importer la colors du produit séléctionné par l'utilisateur 
         function makeColors(colors) {
             const select = document.querySelector("#colors")
             if(select != null) { 
@@ -69,6 +79,7 @@ let imgUrl, altText, articleName
         const button  = document.querySelector("#addToCart")
         button.addEventListener("click", handleClick)
 
+        //création d'une fonction pour gérer le click sur le boutton
         function handleClick() {
             const color = document.querySelector("#colors").value
             const quantity = document.querySelector("#quantity").value
@@ -77,6 +88,7 @@ let imgUrl, altText, articleName
             redirectToCart()
         }
 
+        //Création d'une fonction pour enregistrer les  clés et les valeurs qui seront stockés dans le localStorage
         function saveCart(color, quantity) {
             const key = `${id}- ${color}`
             const data = {
@@ -110,6 +122,7 @@ let imgUrl, altText, articleName
             localStorage.setItem('products', JSON.stringify(productArray))
         }
 
+        //réation d'une fonction pour controler la validité de la quantité et la couleur
         function isOrderInvalid(color, quantity) {
             if (color == null || color === "" || quantity == null || quantity == 0) {
                 alert("veuillez selectionner la couleur et la quantité")
@@ -118,7 +131,7 @@ let imgUrl, altText, articleName
             return false   
         }
 
-
+        //Création d'une fonction pour rediriger l'utilisateur vers le panier 
         function redirectToCart() {
             window.location.href = "cart.html"
         }
