@@ -88,6 +88,18 @@ let imgUrl, altText, articleName
             redirectToCart()
         }
 
+        let nb_canap = document.querySelector('#quantity');
+        nb_canap.addEventListener("blur", () => {
+            if(nb_canap.value < 1 || nb_canap.value > 100)
+            {
+                alert("Veuillez saisir une quantité entre 1 et 100");
+                nb_canap.value = 1;
+                return;
+            }else{
+                alert("quatité souhaitée:" + nb_canap.value);
+            }
+        })
+
         //Création d'une fonction pour enregistrer les  clés et les valeurs qui seront stockés dans le localStorage
         function saveCart(color, quantity) {
             const key = `${id}- ${color}`

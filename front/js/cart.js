@@ -172,14 +172,35 @@ function addQuantityToSettings(settings, item) {
 //quantité totale et le prix total
 function updatePriceAndQuantity(id, newValue, item) {
   const itemToUpdate = cart.find((item) => item.id === id)
-  itemToUpdate.quantity = number(newValue)
+  itemToUpdate.quantity = parseInt(newValue)
   item.quantity = itemToUpdate.quantity
+
   displayTotalQuantity()
   displayTotalPrice()
   saveNewDataToCache(item)
 }
 
-//fonction pour sauvegarder la nouvelle du prix et de la quantité dans le localStorage
+
+let quantities = document.querySelectorAll(".itemQuantity");
+quantities.forEach(function(quantity){
+  quantity.addEventListener("blur", () => { 
+    if (quantity.value < 1 || quantity.value > 100)
+      {
+        alert("Veuillez saisir une quantité entre 1 et 100");
+        quantity.value = 1;
+        return;
+      }
+    else {
+      alert("Quantité souhaité: " + quantity.value);
+    }
+  })
+
+}) 
+
+
+
+
+//fonction pour sauvegarder la nouvelle valeur du prix et de la quantité dans le localStorage
 function saveNewDataToCache(item) {
   const dataToSave = JSON.stringify(item)
   const key = `${item.id}-${item.color}`
@@ -237,7 +258,7 @@ function isEmailInvalid() {
 function isFirstNameInvalid() {
   const firstName = document.getElementById("firstName").value
   if(/^[A-Za-z]{3,20}$/.test(firstName) == false) {
-    alert("Veuillez entrer votre prenom")
+    alert("Veuillez entrer un prenom valide")
     return true
   }
   return false
@@ -248,7 +269,7 @@ function isFirstNameInvalid() {
 function islastNameInvalid() {
   const lastName = document.getElementById("lastName").value
   if(/^[A-Za-z]{3,20}$/.test(lastName) == false) {
-    alert("Veuillez entrer votre nom")
+    alert("Veuillez entrer un nom valide")
     return true
   }
   return false
@@ -259,7 +280,7 @@ function islastNameInvalid() {
 function isCityInvalid() {
   const city = document.getElementById("city").value
   if(/^[A-Za-z]{3,20}$/.test(city) == false) {
-    alert("Veuillez entrer votre ville")
+    alert("Veuillez entrer une ville valide")
     return true
   }
   return false
@@ -270,7 +291,7 @@ function isCityInvalid() {
 function isAddressInvalid() {
   const address = document.getElementById("address").value
   if(/^[A-Za-z0-9\s]{5,50}$/.test(address) == false) {
-    alert("Veuillez entrer votre adresse")
+    alert("Veuillez entrer une adresse valide")
     return true
   }
   return false
@@ -321,6 +342,7 @@ function getIdsFromCache() {
 
   return ids;
 }
+
 
 
 
